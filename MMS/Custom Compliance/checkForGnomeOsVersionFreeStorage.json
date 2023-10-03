@@ -1,0 +1,46 @@
+{
+    "Rules": [
+        {
+            "SettingName": "OS Version",
+            "Operator": "IsEquals",
+            "DataType": "String",
+            "Operand": "22.04",
+            "MoreInfoUrl": "https://ubuntu.com/blog/upgrade-your-desktop-ubuntu-22-04-lts",
+            "RemediationStrings": [
+                {
+                    "Language": "en_US",
+                    "Title": "Ubuntu 22.04 is not installed on the device",
+                    "Description": "Please ensure that Ubuntu 22.04 is installed"
+                }
+            ]
+        },
+        {
+            "SettingName": "Free Storage",
+            "Operator": "GreaterThan",
+            "DataType": "Int64",
+            "Operand": 10,
+            "MoreInfoUrl": "https://ubunlog.com/en/ways-and-more-ways-to-free-up-space-in-your-ubuntu/",
+            "RemediationStrings": [
+                {
+                    "Language": "en_US",
+                    "Title": "Less then 10 GB storage are available",
+                    "Description": "Please ensure to freeup storage"
+                }
+            ]
+        },
+        {
+            "SettingName": "gnome-shell",
+            "Operator": "IsEquals",
+            "DataType": "String",
+            "Operand": "Running",
+            "MoreInfoUrl": "https://www.gnome.org/",
+            "RemediationStrings": [
+                {
+                    "Language": "en_US",
+                    "Title": "Gnome Shell Not Running",
+                    "Description": "Please ensure that Gnome Shell is running"
+                }
+            ]
+        }
+    ]
+}

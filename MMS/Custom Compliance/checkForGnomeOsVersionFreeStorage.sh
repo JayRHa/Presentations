@@ -4,12 +4,12 @@ log="$HOME/compliance.log"
 echo "$(date) | Starting compliance script" >> $log
 
 # Get free storage
-free_storage=$(df -h / | tail -1 | awk '{print $4}')
+free_storage=$(df -h / | tail -1 | awk '{gsub(/G/,"",$4); print $4}')
 
 # Get OS version
 if [ -f /etc/os-release ]; then
     . /etc/os-release
-    os_version="$NAME $VERSION_ID"
+    os_version="$VERSION_ID"
 else
     os_version="Unknown OS"
 fi
