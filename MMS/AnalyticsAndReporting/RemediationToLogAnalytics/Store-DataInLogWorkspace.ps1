@@ -89,9 +89,9 @@ function Get-NameFromRequest {
         [Parameter(Mandatory = $true)][string]$varName
     )
 
-    $name = $Request.Query.$varName
+    $name = ($Request.Body | ConvertFrom-Json).$varName
     if (-not $name) {
-        $name = $Request.Body.$varName
+        $name = $($Request.Body | ConvertFrom-Json).$varName
     }
 
     if (-not $name) {
@@ -108,7 +108,7 @@ function Get-NameFromRequest {
 try {
     Connect-AzAccount -Identity
     $token = Get-AzAccessToken -ResourceUrl "https://graph.microsoft.com"
-    $token = $token = (ConvertTo-SecureString $token.Token -AsPlainText -Force)
+    $token = (ConvertTo-SecureString $token.Token -AsPlainText -Force)
     Connect-MgGraph -AccessToken $token
 }
 catch {
@@ -124,7 +124,7 @@ $workspaceId = $env:WORKSPACE_ID
 $workspaceKey = $env:WORKSPACE_KEY
 
 try {
-    $json = (Get-NameFromRequest -varName "data")
+    $json_data = (Get-NameFromRequest -varName "data")
 }
 catch {
     Push-OutputBinding -Name response -Value ([HttpResponseContext]@{
@@ -133,17 +133,35 @@ catch {
         })
 }
 
-if (-not (Get-TenantIdValidated -tenantId $json.validation.tenantId)) {
-    throw "The tenant id provided is not the same as the current tenant id "
+try {
+    $json_validation = (Get-NameFromRequest -varName "validation")
+}
+catch {
+    Push-OutputBinding -Name response -Value ([HttpResponseContext]@{
+            StatusCode = [System.Net.HttpStatusCode]::BadRequest
+            Body       = "Failed to get data from request: $_"
+        })
 }
 
-if (-not (Get-DeviceNameValidated -deviceName $json.data.hostname -aadDeviceId $json.validation.aadDeviceId)) {
-    throw "The device name provided is not the same as the current device name"
+try {
+    if (-not (Get-TenantIdValidated -tenantId $json_validation.tenantId)) {
+        throw "The tenant id provided is not the same as the current tenant id "
+    }
+
+    if (-not (Get-DeviceNameValidated -deviceName $json_data.data.hostname -aadDeviceId $json_validation.aadDeviceId)) {
+        throw "The device name provided is not the same as the current device name"
+    }
+}
+catch {
+    Push-OutputBinding -Name response -Value ([HttpResponseContext]@{
+            StatusCode = [System.Net.HttpStatusCode]::BadRequest
+            Body       = "Falidation failed: $_"
+        })
 }
 
 
 try {
-    $data = $json.data | ConvertTo-Json -Depth 100
+    $data = $json_data | ConvertTo-Json -Depth 100
     $params = @{
         f_customerId = $workspaceId
         f_sharedKey  = $workspaceKey
