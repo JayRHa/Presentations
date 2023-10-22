@@ -1,0 +1,32 @@
+{
+    "Rules": [
+        {
+            "SettingName": "AvActive",
+            "Operator": "IsEquals",
+            "DataType": "Boolean",
+            "Operand": true,
+            "MoreInfoUrl": "https://learn.microsoft.com/en-us/mem/intune/user-help/turn-on-defender-windows",
+            "RemediationStrings": [
+                {
+                    "Language": "en_US",
+                    "Title": "This machine has no active antivirus solution.",
+                    "Description": "To continue to use this device you have to install a Antivirus Solution"
+                }
+            ]
+        },
+        {
+            "SettingName": "FreeStorage",
+            "Operator": "GreaterEquals",
+            "DataType": "int64",
+            "Operand": 10,
+            "MoreInfoUrl": "https://support.microsoft.com/en-us/windows/free-up-drive-space-in-windows-a18fae02-a0fa-8df9-9838-8970f9939de4",
+            "RemediationStrings": [
+                {
+                    "Language": "en_US",
+                    "Title": "No storage free.",
+                    "Description": "The device has less than 10GB storage free. Please run a cleanup"
+                }
+            ]
+        }
+    ]
+}
