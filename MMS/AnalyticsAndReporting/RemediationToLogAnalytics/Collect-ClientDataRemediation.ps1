@@ -101,7 +101,4 @@ $result = @"
 }
 "@
 
-
-#Invoke-WebRequest -Uri $azureFunctionUrl -Method "POST" -ContentType "application/json" -Body $result -UseBasicParsing 
-
-$result
+Invoke-WebRequest -Uri $azureFunctionUrl -Method "POST" -Body $result
