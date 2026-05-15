@@ -20,7 +20,7 @@ Explain. Demo. Share.
 
 ## What is this?
 
-This repository provides slide decks and demo materials from conference talks and community presentations.
+Slide decks and demo materials from conference talks and community presentations.
 
 > Browse the documentation below for setup notes, usage details, and project-specific context.
 
