@@ -1,65 +1,53 @@
-<!-- unified-readme:start -->
+<!-- jr-brand:start -->
 <div align="center">
-
-# Presentations
-
-**Slide decks and demo materials from conference talks and community presentations.**
-
-Explain. Demo. Share.
-
-[![GitHub stars](https://img.shields.io/github/stars/JayRHa/Presentations?style=for-the-badge&logo=github&color=f4c542)](https://github.com/JayRHa/Presentations/stargazers)
-[![GitHub forks](https://img.shields.io/github/forks/JayRHa/Presentations?style=for-the-badge&logo=github&color=4078c0)](https://github.com/JayRHa/Presentations/network/members)
-[![GitHub issues](https://img.shields.io/github/issues/JayRHa/Presentations?style=for-the-badge&logo=github&color=d73a4a)](https://github.com/JayRHa/Presentations/issues)
-[![Contributors](https://img.shields.io/github/contributors/JayRHa/Presentations?style=for-the-badge&logo=github&color=28a745)](https://github.com/JayRHa/Presentations/graphs/contributors)
-
-<p>
-  <a href="https://jannikreinhard.com/">Blog</a> ·
-  <a href="https://www.linkedin.com/in/jannik-r/">LinkedIn</a> ·
-  <a href="https://x.com/jannik_reinhard">X</a>
+  <a href="https://jannikreinhard.com/">
+    <img src="https://raw.githubusercontent.com/JayRHa/.github/main/assets/readme/collection.svg" alt="Jannik Reinhard — AI, Cloud and Endpoint Management" width="100%">
+  </a>
+  <h1>Presentations</h1>
+  <p><strong>Slide decks and demo materials from conference talks and community presentations.</strong></p>
+  <p>
+  <a href="https://jannikreinhard.com/"><img src="https://img.shields.io/badge/Website-0A5FC0?style=flat-square&amp;logo=wordpress&amp;logoColor=white" alt="Website"></a>
+  <a href="https://github.com/JayRHa"><img src="https://img.shields.io/badge/GitHub-081427?style=flat-square&amp;logo=github&amp;logoColor=white" alt="GitHub"></a>
+  <a href="https://www.linkedin.com/in/jannik-r/"><img src="https://img.shields.io/badge/LinkedIn-0795FF?style=flat-square&amp;logo=linkedin&amp;logoColor=white" alt="LinkedIn"></a>
+  <a href="https://x.com/jannik_reinhard"><img src="https://img.shields.io/badge/X-081427?style=flat-square&amp;logo=x&amp;logoColor=white" alt="X"></a>
+  <a href="https://www.youtube.com/@ModernDevMgmt/featured"><img src="https://img.shields.io/badge/YouTube-0A5FC0?style=flat-square&amp;logo=youtube&amp;logoColor=white" alt="YouTube"></a>
 </p>
+  <p><sub>Open-Source Collection · HTML · Practical by design</sub></p>
+</div>
+<!-- jr-brand:end -->
+
+## Overview
+
+This repository contains scripts, demos and supporting material from my community sessions. The files are provided so you can reproduce the technical parts of a presentation instead of only viewing the slides.
+
+## Sessions
+
+| Event | Topics |
+| --- | --- |
+| MMS Miami 2023 | Analytics, reporting, custom compliance and Log Analytics |
+| MMS Moa 2024 | Anomaly detection, custom compliance, remediation and AI-assisted summarization |
+
+## How to Use the Material
+
+1. Open the folder for the event and session.
+2. Read the script before running it.
+3. Replace tenant, workspace and resource placeholders.
+4. Test with non-production data and a limited device group.
+
+Some demos require Microsoft Graph permissions, an Azure resource or Python packages that are specific to the session.
+
+## License
+
+This project is available under the terms in [LICENSE](LICENSE).
+
+<!-- jr-brand-footer:start -->
 
 ---
 
-`Community Content` | `HTML` | `Public` | `Maintained`
-
+<div align="center">
+  <p><sub>Built and maintained by <a href="https://jannikreinhard.com/">Jannik Reinhard</a> · Microsoft MVP for Security and AI Platform.</sub></p>
+  <p><a href="https://www.buymeacoffee.com/jannikreinf">Support the open-source work</a></p>
+  <p><strong>Stay healthy, Cheers Jannik</strong></p>
 </div>
 
-## What is this?
-
-Presentations contains learning, presentation, or documentation assets that support endpoint management and community knowledge sharing.
-
-## Project Context
-
-- The repository is useful when preparing demos, talks, reference material, or reusable examples.
-- Content is organized so source material can be reviewed, reused, and shared consistently.
-- This repository is maintained as a practical project and reference asset.
-
-## How It Works
-
-Source material is collected in the repository, organized into reusable sections, then rendered, presented, or referenced by readers and audiences.
-
-```mermaid
-flowchart LR
-    Source[Source material] --> Structure[Organized content]
-    Structure --> Review[Review and refine]
-    Review --> Output[Slides, docs, or examples]
-    Output --> Audience[Readers or audience]
-    Audience --> Feedback[Feedback]
-    Feedback --> Source
-```
-
-## Quick Start
-
-1. Review the project context and workflow below.
-2. Clone the repository:
-
-   ```bash
-   git clone https://github.com/JayRHa/Presentations.git
-   ```
-
-3. Continue with the setup, usage, or workflow sections below.
-
----
-<!-- unified-readme:end -->
-
-# Presentations
+<!-- jr-brand-footer:end -->
