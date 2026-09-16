@@ -1,0 +1,129 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "resources": [
+    {
+      "type": "Microsoft.Logic/workflows",
+      "apiVersion": "2019-05-01",
+      "name": "[parameters('workflowName')]",
+      "location": "[parameters('location')]",
+      "identity": {
+        "type": "SystemAssigned"
+      },
+      "tags": {
+        "purpose": "Designer demo only"
+      },
+      "properties": {
+        "state": "Disabled",
+        "definition": {
+          "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
+          "contentVersion": "1.0.0.0",
+          "parameters": {},
+          "triggers": {
+            "Every_morning_at_08_00": {
+              "type": "Recurrence",
+              "recurrence": {
+                "frequency": "Day",
+                "interval": 1,
+                "timeZone": "W. Europe Standard Time",
+                "schedule": {
+                  "hours": [
+                    8
+                  ],
+                  "minutes": [
+                    0
+                  ]
+                }
+              }
+            }
+          },
+          "actions": {
+            "Read_Intune_device_health": {
+              "type": "Http",
+              "inputs": {
+                "uri": "https://graph.microsoft.com/v1.0/deviceManagement/managedDevices",
+                "method": "GET",
+                "queries": {
+                  "$select": "id,deviceName,complianceState,lastSyncDateTime,operatingSystem"
+                },
+                "authentication": {
+                  "type": "ManagedServiceIdentity",
+                  "audience": "https://graph.microsoft.com"
+                }
+              },
+              "runAfter": {}
+            },
+            "Find_devices_needing_attention": {
+              "type": "Query",
+              "inputs": {
+                "from": "@body('Read_Intune_device_health')?['value']",
+                "where": "@or(equals(item()?['complianceState'],'noncompliant'),equals(item()?['complianceState'],'error'))"
+              },
+              "runAfter": {
+                "Read_Intune_device_health": [
+                  "Succeeded"
+                ]
+              }
+            },
+            "Any_devices_need_attention": {
+              "type": "If",
+              "expression": {
+                "and": [
+                  {
+                    "greater": [
+                      "@length(body('Find_devices_needing_attention'))",
+                      0
+                    ]
+                  }
+                ]
+              },
+              "actions": {
+                "Build_Teams_health_summary": {
+                  "type": "Compose",
+                  "inputs": {
+                    "title": "Intune daily health check",
+                    "devicesNeedingAttention": "@length(body('Find_devices_needing_attention'))",
+                    "recommendation": "Open Intune and review compliance reasons. Device changes require approval."
+                  }
+                },
+                "Review_in_Teams": {
+                  "type": "Compose",
+                  "inputs": "Demo: post the summary to the Intune Health Demo channel.",
+                  "runAfter": {
+                    "Build_Teams_health_summary": [
+                      "Succeeded"
+                    ]
+                  }
+                }
+              },
+              "else": {
+                "actions": {
+                  "Log_healthy_run": {
+                    "type": "Compose",
+                    "inputs": "No noncompliant or error devices in this response. Designer demo: only the first Graph page is checked."
+                  }
+                }
+              },
+              "runAfter": {
+                "Find_devices_needing_attention": [
+                  "Succeeded"
+                ]
+              }
+            }
+          },
+          "outputs": {}
+        }
+      }
+    }
+  ],
+  "parameters": {
+    "location": {
+      "type": "string",
+      "defaultValue": "[resourceGroup().location]"
+    },
+    "workflowName": {
+      "type": "string",
+      "defaultValue": "logic-intune-health-demo"
+    }
+  }
+}

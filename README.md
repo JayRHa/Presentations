@@ -26,6 +26,7 @@ This repository contains scripts, demos and supporting material from my communit
 | --- | --- |
 | MMS Miami 2023 | Analytics, reporting, custom compliance and Log Analytics |
 | MMS Moa 2024 | Anomaly detection, custom compliance, remediation and AI-assisted summarization |
+| [Workplace Ninja 2026](Workplace%20Ninja%202026/) | Intune AI Intelligence: Azure Automation health check, Teams notifications and Logic App designer demo |
 
 ## How to Use the Material
 

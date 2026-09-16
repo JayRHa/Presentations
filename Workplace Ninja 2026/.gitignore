@@ -1,0 +1,6 @@
+*.local.*
+.env
+.env.*
+!.env.example
+**/test-results.json
+**/grant-helper-test-results.json

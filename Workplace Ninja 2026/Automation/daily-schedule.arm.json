@@ -1,0 +1,65 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "automationAccountName": {
+      "type": "string",
+      "defaultValue": "aa-intune-health-demo"
+    },
+    "runbookName": {
+      "type": "string",
+      "defaultValue": "Invoke-IntuneDailyHealth"
+    },
+    "scheduleName": {
+      "type": "string",
+      "defaultValue": "Daily-Intune-Health-0800-Berlin"
+    },
+    "startTime": {
+      "type": "string",
+      "metadata": {
+        "description": "First future 08:00 in Berlin, with correct offset: +02:00 in summer or +01:00 in winter. Must be at least 5 minutes in the future."
+      }
+    },
+    "jobScheduleGuid": {
+      "type": "string",
+      "metadata": {
+        "description": "Generate one GUID for this runbook/schedule link and reuse it on redeployment to avoid duplicate links."
+      }
+    }
+  },
+  "resources": [
+    {
+      "type": "Microsoft.Automation/automationAccounts/schedules",
+      "apiVersion": "2024-10-23",
+      "name": "[format('{0}/{1}', parameters('automationAccountName'), parameters('scheduleName'))]",
+      "properties": {
+        "description": "Daily read-only Intune device and APNs health check; Teams alert only when attention is needed.",
+        "frequency": "Day",
+        "interval": 1,
+        "startTime": "[parameters('startTime')]",
+        "timeZone": "W. Europe Standard Time"
+      }
+    },
+    {
+      "type": "Microsoft.Automation/automationAccounts/jobSchedules",
+      "apiVersion": "2024-10-23",
+      "name": "[format('{0}/{1}', parameters('automationAccountName'), parameters('jobScheduleGuid'))]",
+      "dependsOn": [
+        "[resourceId('Microsoft.Automation/automationAccounts/schedules', parameters('automationAccountName'), parameters('scheduleName'))]"
+      ],
+      "properties": {
+        "schedule": {
+          "name": "[parameters('scheduleName')]"
+        },
+        "runbook": {
+          "name": "[parameters('runbookName')]"
+        },
+        "parameters": {
+          "StaleAfterDays": "14",
+          "IncludeApplePushCheck": "true",
+          "CertificateWarningDays": "30"
+        }
+      }
+    }
+  ]
+}
